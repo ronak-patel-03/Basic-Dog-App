@@ -88,31 +88,6 @@ class NetworkManager {
         }.resume()
     }
     
-    func fetchImage(urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.invalidURL))
-            return
-        }
-
-        var request = URLRequest(url: url)
-        // Uncomment the following line if you need to include the API key
-        // request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "x-api-key")
-
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                completion(.failure(.dataTaskError(error)))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(.noData))
-                return
-            }
-
-            completion(.success(data))
-        }.resume()
-    }
-    
     func fetchImageForBreed(breedId: Int, completion: @escaping (Result<[ImageModel], NetworkError>) -> Void) {
         let imageUrlString = "https://api.thedogapi.com/v1/images/search?limit=2&breed_id=\(breedId)"
         
